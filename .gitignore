@@ -131,3 +131,4 @@ dmypy.json
 # Data folders
 sun
 mercury
+nohup.out
