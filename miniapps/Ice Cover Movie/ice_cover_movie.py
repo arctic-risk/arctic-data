@@ -127,7 +127,7 @@ def download_directory(progressbar,dates,localpath):
     st.sidebar.success("Downloaded requested images and created animated gif")
 
 
-st.header("""Arctic ice cover over the past three decades yourself""")
+st.header("""Arctic ice cover over the past three decades""")
 
 st.markdown(body="""We have heard about it. But seeing it yourself, and getting a feel for the data is much better. 
     This notebook downloads northern hemisphere satellite images.""")
