@@ -3,7 +3,7 @@
 Use this app to create an animation of arcitc sea ice cover since 1978/1979. Check how much the ice covered area has changed over
 time, by looking at annual comparisons of the same months across multiple years.
 
-![](../streamlit-ice_cover_movie.webm)
+![](ice_cover_animations.gif)
 
 This app uses [NSIDC Sea Ice Index G02135](https://nsidc.org/data/g02135) data. 
 
