@@ -13,13 +13,13 @@ hold of the data sources yourself.
 
 Compare the size of Arctic Sea Ice and how it shrunk over time with regions of earth to get a feel for the dimensions.
 
-![](miniapps/Ice Cover Comparisons/ice_cover_comparisons.gif)
+![](miniapps/Ice\ Cover\ Comparisons/ice_cover_comparisons.gif)
 
 ## Ice Cover Animations
 
 Create, from synthesised blue marble style images, an animated gif of Arctic ice cover for a particular month for multiple years.
 
-![](miniapps/Ice Cover Movie/ice_cover_animations.gif)
+![](miniapps/Ice\ Cover\ Movie/ice_cover_animations.gif)
 
 # Permafrost
 
