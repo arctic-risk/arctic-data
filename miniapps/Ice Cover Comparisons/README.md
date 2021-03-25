@@ -22,8 +22,8 @@ Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.
 This app uses [pipenv](https://pipenv.pypa.io/en/latest/), a [good guide is here, too](https://realpython.com/pipenv-guide/) to install dependencies.
 We need
 * streamlit
+* geopandas _(Note: some platform do not automatically install descartes for map plotting, although pipenv should take care of this)._
 * pandas, numpy, matplotlib
-* [imageio](https://imageio.github.io/) to create the animated gif
 
 ## TODO
 
