@@ -8,12 +8,12 @@
 #   python url_loader.py [-e http://user:password@elasticserverhost:9200] [-i .ent-search-actastic-crawler_domains_v2] [-u urlfile] [https://newdomain.org/somewhere]
 #
 # with
-#   -e elasticserverhost	the url for an elasticsearch server that hosts enterprise search. Add user and password as required
-#   -i crawler-index		the index name of the webcrawler list of searc domains. On v7.11 this is .ent-search-actastic-crawler_domains_v2
-#   -u urlfile				a file contaning a list of domains and entry point urls, one line per entry, to be added
-# 	https://newdomain.org/somewhere is a new to be added domain (if a path is given, it will be added as such without adding /, this
+#   -e elasticserverhost    the url for an elasticsearch server that hosts enterprise search. Add user and password as required
+#   -i crawler-index        the index name of the webcrawler list of searc domains. On v7.11 this is .ent-search-actastic-crawler_domains_v2
+#   -u urlfile              a file contaning a list of domains and entry point urls, one line per entry, to be added
+#   https://newdomain.org/somewhere is a new to be added domain (if a path is given, it will be added as such without adding /, this
 #                           is useful e.g. when picking out a particular article off a site without having to worry about the landing
-#							page being indexed)
+#                           page being indexed)
 #
 # Copyright (C) 2021 Klaus G. Paul for Arctic Basecamp Foundation
 #
@@ -28,25 +28,25 @@ import requests
 import json
 
 class ENTSEARCHCRAWLER():
-	"""ENTSEARCHCRAWLER class
+    """ENTSEARCHCRAWLER class
 
-	Parameters:
-	none for the class
+    Parameters:
+    none for the class
 
-	Class to provide basic CRU functionality to add urls to the Elasticsearch Enterprise Search Web Cralwer configuration.
-	The missing Delete functionality is done best from the web frontend.
+    Class to provide basic CRU functionality to add urls to the Elasticsearch Enterprise Search Web Cralwer configuration.
+    The missing Delete functionality is done best from the web frontend.
 
-	"""
+    """
     def __init__(self,elasticserver_url,searchengine_name=""):
-    	"""init
+        """init
 
-    	Parameters:
-    	elasticserver_url (str): url to an elastic search instance in the form http[s]://[<user>[:<password>]]@<host>[:<port>]/
-    	searchengine_name (str): name of the default search engine whose configuation is to be amended. Stored for subsequent use
+        Parameters:
+        elasticserver_url (str): url to an elastic search instance in the form http[s]://[<user>[:<password>]]@<host>[:<port>]/
+        searchengine_name (str): name of the default search engine whose configuation is to be amended. Stored for subsequent use
 
-    	Returns:
-    	A new instance of class ENTSEARCHCRAWLER
-    	"""
+        Returns:
+        A new instance of class ENTSEARCHCRAWLER
+        """
         elasticbits = urllib.parse.urlsplit(elasticserver_url)
         self.server_url = "{}://{}".format(elasticbits.scheme,elasticbits.netloc)
         
@@ -70,14 +70,14 @@ class ENTSEARCHCRAWLER():
         
         
     def get_search_engine_id_from_name(self,name):
-    	"""get_search_engine_id_from_name
+        """get_search_engine_id_from_name
 
-    	Parameters:
-    	name (str): name of the search engine whose id is to be gathered
+        Parameters:
+        name (str): name of the search engine whose id is to be gathered
 
-    	Returns:
-    	id (str) if found, None if not
-    	"""
+        Returns:
+        id (str) if found, None if not
+        """
         r = requests.get(self.server_url+"/"+self.search_engines_index+"/_search",json={"query":{"match": {"name": name}}},headers={"Accept":"application/json"})
         results = json.loads(r.text)
         results = results["hits"]["hits"]
@@ -91,28 +91,28 @@ class ENTSEARCHCRAWLER():
         
         
     def set_default_search_engine(self,name):
-    	"""set_default_search_engine
+        """set_default_search_engine
 
-		Set default search engine for subsequent operations, convenience function.
+        Set default search engine for subsequent operations, convenience function.
 
-    	Parameters:
-    	name (str): name of the search engine whose id is to be gathered
+        Parameters:
+        name (str): name of the search engine whose id is to be gathered
 
-    	Returns:
-    	---
-    	"""
+        Returns:
+        ---
+        """
         self.engine = self.get_search_engine_id_from_name(name)
         
     
     def create_new_id(self):
-    	"""create_new_id
+        """create_new_id
 
-    	Parameters:
-    	---
+        Parameters:
+        ---
 
-		Returns:
-		A valid id for Enterprise Search's web crawler (apparently this needs to be a 24 character hex number string) that does not yet exist.
-    	"""
+        Returns:
+        A valid id for Enterprise Search's web crawler (apparently this needs to be a 24 character hex number string) that does not yet exist.
+        """
         for _ in range(9999):
             doc_id = str(uuid.uuid1()).replace("-","")[:24]
             r = requests.get(self.server_url+"/"+self.crawler_index+"/_doc/"+doc_id,headers={"Accept":"application/json"})
@@ -125,8 +125,8 @@ class ENTSEARCHCRAWLER():
         
         
     def check_if_domain_exists(self,domain,searchengine_name=""):
-    	"""check_if_domain_exists
-    	"""
+        """check_if_domain_exists
+        """
         if searchengine_name != "":
             searchengine_id = self.get_search_engine_id_from_name(searchengine_name)
         elif self.engine != "":
@@ -148,8 +148,8 @@ class ENTSEARCHCRAWLER():
 
 
     def add_domain(self,domain,searchengine_name=""):
-    	"""add_domain
-    	"""
+        """add_domain
+        """
         parts = urllib.parse.urlsplit(domain)
         if self.check_if_domain_exists("{}://{}".format(parts.scheme,parts.hostname),searchengine_name=searchengine_name) > 0:
             # already exists
@@ -196,8 +196,8 @@ class ENTSEARCHCRAWLER():
 
 
     def update_seed_url_list(self,full_url,searchengine_name=""):
-    	"""update_seed_url_list
-    	"""
+        """update_seed_url_list
+        """
         parts = urllib.parse.urlsplit(full_url)
         if self.check_if_domain_exists("{}://{}".format(parts.scheme,parts.hostname),searchengine_name=searchengine_name) > 0:
             # already exists
@@ -293,10 +293,11 @@ class ENTSEARCHCRAWLER():
 # Integrate command line interface and class functionality
 
 @click.command()
-@click.option('--elasticserver', '-e', default="http://localhost:9200")
-@click.option('--crawler_index', '-i', default=".ent-search-actastic-crawler_domains_v2")
+@click.option('--elasticserver', '-e', default="http://localhost:9200",help="url for elasticsearch",envvar="UL_ESERVER")
+@click.option('--crawler_index', '-i', default=".ent-search-actastic-crawler_domains_v2",
+    help="indexfile where enterprise search's web crawler stores urls",envvar="UL_CI")
+@click.option('--urlfile', '-u',help="file with one url per line",type=click.File("rt"))
 @click.argument('url',nargs=-1)
-@click.option('--urlfile', '-u')
 def main(elasticserver, crawler_index, url, urlfile):
     click.echo("{} {} {} {}".format(elasticserver, crawler_index, url, urlfile))
 
