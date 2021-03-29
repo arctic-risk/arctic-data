@@ -132,3 +132,5 @@ dmypy.json
 sun
 mercury
 nohup.out
+.env
+findings.json
