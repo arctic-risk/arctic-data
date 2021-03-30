@@ -134,3 +134,4 @@ mercury
 nohup.out
 .env
 findings.json
+deferred.queries.txt
