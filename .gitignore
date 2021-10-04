@@ -133,6 +133,14 @@ sun
 mercury
 nohup.out
 .env
-findings.json
+.env.backup
+findings.*.json
 deferred.queries.txt
 Untitled*.ipynb
+confirmed.parquet
+deaths.parquet
+recovered.parquet
+tmp.parquet
+tmp/
+findings.csv
+findings.json
